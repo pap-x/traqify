@@ -1,0 +1,46 @@
+<mat-toolbar color="primary">
+  <span *ngIf="user"><b>KLAPPER</b> | {{user.name}} - {{user.operation}}</span>
+  <button mat-raised-button class="link-btn" color="primary" onclick="window.open('http://160.40.52.173:8081')">OPIL HMI</button>
+</mat-toolbar>
+
+<div class="tasks-div">
+  <mat-card class="tasks-card">
+    <h3>Open Tasks</h3>
+    <span *ngIf="!tasks[0]">No tasks currently available</span>
+    <div *ngIf="tasks[0]">
+      <mat-list>
+        <mat-list-item *ngFor="let task of tasks; let i=index"><div class="task-list-text">Product ID:&nbsp;<b>{{task.product_id}}</b>&nbsp;|&nbsp;From:&nbsp;<b>{{task.current_station}}</b>&nbsp;|&nbsp;Το:&nbsp;<b>{{task.next_station}}</b></div><div class="task-list-btn"><button mat-raised-button (click)="acceptTask(i)" id="accept-btn">Accept</button></div></mat-list-item>
+      </mat-list>
+    </div>
+  </mat-card>
+</div>
+
+<div class="task-div">
+  <mat-card class="task-card">
+    <h3>Current Task</h3>
+    <span *ngIf="!current_task.container_id">No task accepted</span>
+    <div *ngIf="current_task.container_id">
+      Container ID:&nbsp;<b>{{current_task.container_id}}</b> <br/>
+      Product ID:&nbsp;<b>{{current_task.product_id}}</b> <br/>
+      From Station:&nbsp;<b>{{current_task.current_station}}</b> <br/>
+      Το Station:&nbsp;<b>{{current_task.next_station}}</b> <br/>
+      Amount:&nbsp;<b>{{current_task.amount}}</b><br/>
+
+      <input hidden type="file" capture="camera" accept="image/*" id="cameraInput" name="cameraInput" #imageInput (change)="onImageTaken($event)">
+      <button mat-raised-button color="accent" (click)="imageInput.click()" id="photo-btn">Take Photo</button>
+      <button mat-raised-button color="accent" (click)="scanQR()" id="scan-btn" *ngIf="tookPhoto">Scan QR</button>
+      <button mat-raised-button color="primary" (click)="complete()" [disabled]="!completed_btn" id="comp-btn">Completed</button>
+    </div>
+  </mat-card>
+</div>
+
+<div class="canvas-div">
+  <mat-spinner diameter="30" *ngIf="isLoading"></mat-spinner>
+  <canvas id="scanned-image" width="500" height="375"></canvas>
+</div>
+<!--<div class="qr-scanner">
+  <zxing-scanner *ngIf="scanQRView" [(device)]="currentDevice" (scanSuccess)="onCodeResult($event)" (camerasFound)="onCamerasFound($event)"></zxing-scanner>
+  <div class="wrong-cont" *ngIf="qr_search===1"> <i class="fa fa-times-circle"></i> Wrong container!</div>
+  <div class="correct-cont" *ngIf="qr_search===2"> <i class="fa fa-check"></i> This is the container for transport</div>
+</div>-->
+

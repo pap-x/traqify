@@ -1,0 +1,115 @@
+<mat-toolbar color="primary">
+  <span *ngIf="user"><b>KLAPPER</b> | {{user.name}} - {{user.operation}}</span>
+  <button mat-raised-button class="link-btn" color="primary" onclick="window.open('http://160.40.52.173:8081')">OPIL HMI</button>
+</mat-toolbar>
+<h3 id="supervisor-title">Stations:</h3>
+<div class="supervisor-tabs">
+  <mat-tab-group backgroundColor="primary">
+    <mat-tab label="Punching Machine">
+      <mat-card *ngFor="let container of containers | filterstation:'Punching Machine'" class="supervisor-card">
+        <b>Container ID:</b> {{container.container_id}}&nbsp;|&nbsp;
+        <b>Product ID:</b> {{container.product_id}}&nbsp;|&nbsp;
+        <b>Amount:</b> {{container.amount}}
+      </mat-card>
+    </mat-tab>
+    <mat-tab label="Cleaning Station">
+      <p><b>Buffer:</b></p>
+      <mat-card *ngFor="let container of containers | filterstation:'Cleaning Station Buffer'" class="supervisor-card">
+          <b>Container ID:</b> {{container.container_id}}&nbsp;|&nbsp;
+          <b>Product ID:</b> {{container.product_id}}&nbsp;|&nbsp;
+          <b>Amount:</b> {{container.amount}}
+      </mat-card>
+      <p><b>Processing:</b></p>
+      <mat-card *ngFor="let container of containers | filterstation:'Cleaning Station'" class="supervisor-card">
+          <b>Container ID:</b> {{container.container_id}}&nbsp;|&nbsp;
+          <b>Product ID:</b> {{container.product_id}}&nbsp;|&nbsp;
+          <b>Amount:</b> {{container.amount}}
+      </mat-card>
+    </mat-tab>
+    <mat-tab label="Bending Machine">
+      <p><b>Buffer:</b></p>
+      <mat-card *ngFor="let container of containers | filterstation:'Bending Machine Buffer'" class="supervisor-card">
+          <b>Container ID:</b> {{container.container_id}}&nbsp;|&nbsp;
+          <b>Product ID:</b> {{container.product_id}}&nbsp;|&nbsp;
+          <b>Amount:</b> {{container.amount}}
+      </mat-card>
+      <p><b>Processing:</b></p>
+      <mat-card *ngFor="let container of containers | filterstation:'Bending Machine'" class="supervisor-card">
+          <b>Container ID:</b> {{container.container_id}}&nbsp;|&nbsp;
+          <b>Product ID:</b> {{container.product_id}}&nbsp;|&nbsp;
+          <b>Amount:</b> {{container.amount}}
+        </mat-card>
+    </mat-tab>
+    <mat-tab label="Painting Line">
+      <p><b>Buffer:</b></p>
+      <mat-card *ngFor="let container of containers | filterstation:'Painting Line Buffer'" class="supervisor-card">
+          <b>Container ID:</b> {{container.container_id}}&nbsp;|&nbsp;
+          <b>Product ID:</b> {{container.product_id}}&nbsp;|&nbsp;
+          <b>Amount:</b> {{container.amount}}
+      </mat-card>
+      <p><b>Processing:</b></p>
+      <mat-card *ngFor="let container of containers | filterstation:'Painting Line'" class="supervisor-card">
+          <b>Container ID:</b> {{container.container_id}}&nbsp;|&nbsp;
+          <b>Product ID:</b> {{container.product_id}}&nbsp;|&nbsp;
+          <b>Amount:</b> {{container.amount}}
+      </mat-card>
+    </mat-tab>
+    <mat-tab label="Assembly Line">
+      <p><b>Buffer:</b></p>
+      <mat-card *ngFor="let container of containers | filterstation:'Assembly Line Buffer'" class="supervisor-card">
+          <b>Container ID:</b> {{container.container_id}}&nbsp;|&nbsp;
+          <b>Product ID:</b> {{container.product_id}}&nbsp;|&nbsp;
+          <b>Amount:</b> {{container.amount}}
+      </mat-card>
+      <p><b>Processing:</b></p>
+      <mat-card *ngFor="let container of containers | filterstation:'Assembly Line'" class="supervisor-card">
+          <b>Container ID:</b> {{container.container_id}}&nbsp;|&nbsp;
+          <b>Product ID:</b> {{container.product_id}}&nbsp;|&nbsp;
+          <b>Amount:</b> {{container.amount}}
+      </mat-card>
+    </mat-tab>
+    <!--<mat-tab label="Packaging">
+      <p><b>Buffer:</b></p>
+      <mat-card *ngFor="let container of containers | filterstation:'Packaging Buffer'">
+          <b>Container ID:</b> {{container.container_id}}&nbsp;|&nbsp;
+          <b>Product ID:</b> {{container.product_id}}&nbsp;|&nbsp;
+          <b>Amount:</b> {{container.amount}}
+      </mat-card>
+      <p><b>Processing:</b></p>
+      <mat-card *ngFor="let container of containers | filterstation:'Packaging'">
+          <b>Container ID:</b> {{container.container_id}}&nbsp;|&nbsp;
+          <b>Product ID:</b> {{container.product_id}}&nbsp;|&nbsp;
+          <b>Amount:</b> {{container.amount}}
+      </mat-card>
+    </mat-tab>
+    <mat-tab label="Warehouse">
+      <mat-card *ngFor="let container of containers | filterstation:'Warehouse'">
+          <b>Container ID:</b> {{container.container_id}}&nbsp;|&nbsp;
+          <b>Product ID:</b> {{container.product_id}}&nbsp;|&nbsp;
+          <b>Amount:</b> {{container.amount}}
+      </mat-card>
+    </mat-tab>-->
+  </mat-tab-group>
+</div>
+<mat-divider></mat-divider>
+<div class="supervisor-search">
+  <mat-card>
+    <mat-card-content>
+      <h3>Search Part ID</h3>
+      <form class="operator-form" #requestForm="ngForm">
+
+        <mat-form-field class="operator-full-width">
+          <input type="text" matInput required [matAutocomplete]="auto" #opPartID placeholder="Type the Part ID" [formControl]="productCtrl" (change)="onPartChange(opPartID.value)">
+
+          <mat-autocomplete #auto="matAutocomplete" (optionSelected)='onPartChange(opPartID.value)'>
+            <mat-option *ngFor="let part of list_products | async" [value]="part.ID" >{{part.ID}} | {{part.DESCRIPCION}}</mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+
+        <button mat-raised-button color="primary" (click)="searchID()" [disabled]="!requestForm.form.valid" id="process-cont-btn">Search</button>
+        <span class="station-text" *ngIf="found_container.current_station">Current Station: {{found_container.current_station}}</span>
+        <mat-spinner diameter="30" *ngIf="isLoading"></mat-spinner>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

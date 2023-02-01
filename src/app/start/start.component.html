@@ -1,0 +1,28 @@
+<button class="link-btn" mat-raised-button color="primary" onclick="window.open('http://160.40.52.173:8081')">OPIL HMI</button>
+<div class="start-div">
+  <mat-card class="start-card">
+    <h1>KLAPPER HMI</h1>
+
+    <form class="start-form" #startForm="ngForm">
+      <mat-form-field class="start-full-width">
+        <input matInput [(ngModel)]="operator.name" placeholder="Your Name" required autofocus name="name">
+      </mat-form-field>
+
+      <mat-form-field class="start-full-width">
+        <mat-label>Select your Specialty</mat-label>
+        <mat-select [(ngModel)]="operator.operation" #specialty required name="operation-type">
+            <mat-option *ngFor="let type of operation_types; let i=index" value={{type}}>{{type}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="start-full-width" *ngIf="specialty.value=='Station Operator'">
+        <mat-label>Select your Station</mat-label>
+        <mat-select [(ngModel)]="operator.station" #station required name="operation-station">
+            <mat-option *ngFor="let station of stations; let i=index" value={{station}}>{{station}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" (click)="proceed()" [disabled]="!startForm.form.valid">Proceed</button>
+    </form>
+  </mat-card>
+<div>

@@ -1,0 +1,41 @@
+#supervisor-title {
+  margin-bottom: 5px;
+}
+
+.supervisor-card {
+  width: 35%;
+  min-width: 450px;
+}
+
+mat-spinner {
+  float: right;
+}
+
+mat-divider {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.request-div {
+  width: 30%;
+  min-width: 400px;
+}
+
+.operator-full-width {
+  width: 100%;
+}
+
+.station-text {
+  margin-left: 10px;
+}
+
+.supervisor-search {
+  width: 35%;
+  min-width: 450px;
+}
+
+.link-btn {
+  background-color: darkblue;
+  position: absolute;
+  right: 23px;
+}

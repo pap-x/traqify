@@ -1,0 +1,38 @@
+mat-toolbar {
+  margin-bottom: 10px;
+}
+
+.tasks-div {
+  width: 30%;
+  min-width: 500px;
+  margin-bottom: 10px;
+}
+
+.task-div {
+  width: 50%;
+  min-width: 400px;
+  display: inline-block;
+  vertical-align: top;
+}
+
+mat-list-item {
+  border-bottom: 1px solid lightgrey;
+}
+
+#complete-btn {
+  margin-left: 30px;
+  background-color: rgb(96, 145, 96);
+  color: white;
+  float: right;
+}
+
+.link-btn {
+  background-color: darkblue;
+  position: absolute;
+  right: 23px;
+}
+
+#send-btn {
+  margin-left: 10px;
+}
+

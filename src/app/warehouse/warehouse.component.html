@@ -1,0 +1,19 @@
+<mat-toolbar color="primary">
+  <span *ngIf="user"><b>KLAPPER</b> | {{user.name}} - {{user.operation}}</span>
+  <button mat-raised-button class="link-btn" color="primary" onclick="window.open('http://160.40.52.173:8081')">OPIL HMI</button>
+</mat-toolbar>
+
+<div class="tasks-div">
+  <mat-card class="tasks-card">
+    <h3>Open Requests</h3>
+    <span *ngIf="!requests[0]">No requests currently open</span>
+    <div *ngIf="requests[0]">
+      <mat-list>
+        <mat-list-item *ngFor="let request of requests; let i=index">Product ID:&nbsp;<b>{{request.product_id}}</b>&nbsp;|&nbsp;Amount:&nbsp;<b>{{request.amount}}</b><button mat-raised-button (click)="completeRequest(i)" id="complete-btn">Completed</button></mat-list-item>
+      </mat-list>
+    </div>
+  </mat-card>
+</div>
+<button mat-raised-button color="accent" (click)="summonAGV()" id="summon-btn">Summon AGV</button>
+<button mat-raised-button color="accent" (click)="sendAGV()" id="send-btn">Send AGV</button>
+

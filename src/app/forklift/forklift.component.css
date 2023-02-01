@@ -1,0 +1,92 @@
+@import url('//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
+
+mat-toolbar {
+  margin-bottom: 10px;
+}
+
+.tasks-div {
+  width: 750px;
+  margin-bottom: 10px;
+}
+
+.task-div {
+  width: 35%;
+  min-width: 350px;
+  display: inline-block;
+  vertical-align: top;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+
+mat-list-item {
+  border-bottom: 1px solid lightgrey;
+}
+
+#accept-btn {
+  margin-left: 20px;
+  background-color: rgb(96, 145, 96);
+  color: white;
+}
+
+#scan-btn {
+  margin-top: 10px;
+  margin-right: 10px;
+}
+
+#close-btn {
+  margin-top: 10px;
+}
+
+#comp-btn {
+  margin-top: 10px;
+}
+
+#photo-btn {
+  margin-top: 10px;
+  margin-right: 10px;
+}
+
+.canvas-div {
+  display: inline-block;
+  position: relative;
+}
+
+.wrong-cont {
+  color: #D8000C;
+  background-color: #FFD2D2;
+  margin: 10px 0px;
+  padding: 8px;
+}
+
+.correct-cont {
+  color: #4F8A10;
+  background-color: #DFF2BF;
+  margin: 10px 0px;
+  padding: 8px;
+}
+
+mat-spinner {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+}
+
+.task-list-text {
+  display: inline-block;
+  width: 85%;
+}
+
+.task-list-btn {
+  display: inline-block;
+  width: 15%;
+}
+
+.task-list-btn button {
+  float: right;
+}
+
+.link-btn {
+  background-color: darkblue;
+  position: absolute;
+  right: 23px;
+}

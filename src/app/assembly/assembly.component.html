@@ -1,0 +1,106 @@
+<div class="spinner-overlay" *ngIf="isLoading">
+  <div class="spinner-wrapper">
+    <mat-spinner diameter="100"></mat-spinner>
+  </div>
+</div>
+
+<div class="scanner-overlay" *ngIf="scanQRView">
+  <div class="qr-scanner">
+    <zxing-scanner [(device)]="currentDevice" (scanSuccess)="onCodeResult($event)" (camerasFound)="onCamerasFound($event)"></zxing-scanner>
+    <mat-icon (click)="scanQRView=false">clear</mat-icon>
+  </div>
+</div>
+
+<mat-toolbar color="primary">
+  <span *ngIf="user"><b>KLAPPER</b> | {{user.name}} - {{user.operation}}</span>
+  <button mat-raised-button class="link-btn" color="primary" onclick="window.open('http://160.40.52.173:8081')">OPIL HMI</button>
+</mat-toolbar>
+
+<div class="request-div">
+  <mat-card class="request-card">
+    <h3>Request Raw Materials</h3>
+    <form class="operator-form" #requestForm="ngForm">
+      <!--mat-form-field class="operator-full-width">
+        <mat-label>Select the Product ID</mat-label>
+        <mat-select #reqProductID required name="oper-product-id" (selectionChange)="onProductChange(reqProductID.value)">
+            <mat-option *ngFor="let product of productList; let i=index" value={{product}}>Landing Mechanism Order {{product}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="operator-full-width">
+        <mat-label>Select the Part ID</mat-label>
+        <mat-select [(ngModel)]="request.product_id" #reqPartID required name="oper-part-id">
+            <mat-option *ngFor="let part of partList; let i=index" value={{part.ID}}>{{part.ID}} | {{part.DESCRIPCION}}</mat-option>
+        </mat-select>
+      </mat-form-field>-->
+      <mat-form-field class="operator-full-width">
+        <input type="text" matInput [matAutocomplete]="auto" #opPartID placeholder="Type the Part ID" [formControl]="productCtrl" (blur)="onPartChange(opPartID.value)">
+
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option *ngFor="let part of list_products | async" [value]="part.ID" >{{part.ID}} | {{part.DESCRIPCION}}</mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      <mat-form-field class="operator-half-width">
+        <input matInput [(ngModel)]="request.amount" type="number" placeholder="Amount" required autofocus name="amount">
+      </mat-form-field>
+      <button mat-raised-button color="primary" (click)="requestRaw(requestForm)" [disabled]="!requestForm.form.valid" id="process-cont-btn">Request</button>
+      <button mat-raised-button color="accent" (click)="unloadedAgv()" id="unloaded-agv-btn">Unloaded AGV</button>
+    </form>
+  </mat-card>
+</div>
+
+<div class="request-part">
+  <mat-card class="operator-card">
+    <h3>Request Part</h3>
+
+    <form class="operator-form" #operatorReqForm="ngForm">
+      <!--<mat-form-field class="operator-full-width">
+        <mat-label>Select the Product ID</mat-label>
+        <mat-select #opProductID required name="oper-product-id" (selectionChange)="onProductChange(opProductID.value)">
+            <mat-option *ngFor="let product of productList; let i=index" value={{product}}>Landing Mechanism Order {{product}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="operator-full-width">
+        <mat-label>Select the Part ID</mat-label>
+        <mat-select [(ngModel)]="task.product_id" #opPartID required name="oper-part-id" (selectionChange)="onPartChange(opPartID.value)">
+            <mat-option *ngFor="let part of partList; let i=index" value={{part.ID}}>{{part.ID}} | {{part.DESCRIPCION}}</mat-option>
+        </mat-select>
+      </mat-form-field>-->
+      <mat-form-field class="operator-full-width">
+        <input type="text" matInput [matAutocomplete]="auto" #opReqPartID placeholder="Type the Part ID" [formControl]="productCtrl" (blur)="onPartChange(opReqPartID.value, true)">
+
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)='onPartChange(opReqPartID.value, true)'>
+          <mat-option *ngFor="let part of list_products | async" [value]="part.ID" >{{part.ID}} | {{part.DESCRIPCION}}</mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      <button mat-raised-button color="primary" (click)="createReqTask(operatorReqForm)" [disabled]="!(operatorReqForm.form.valid)" id="create-task-btn">Create Task</button>
+    </form>
+  </mat-card>
+</div>
+
+<div class="operator-div">
+  <mat-card class="operator-card">
+    <h3>Landing Mechanism Assembled</h3>
+    <form class="operator-form" #completedForm="ngForm">
+      <mat-form-field class="operator-full-width">
+        <mat-label>Assembled Landing Mechanism Code</mat-label>
+        <input matInput required [(ngModel)]="completed.landmech_id" type="text" required autofocus name="landmech_id">
+      </mat-form-field>
+      <button mat-raised-button color="primary" [disabled]="!(completedForm.form.valid)" id="completed-btn" (click)="completedLandMech()">Completed</button>
+    </form>
+  </mat-card>
+</div>
+
+<div class="process-div">
+  <mat-card class="process-card">
+    <h3>Process Container</h3>
+    <div class="cont-info" *ngIf="current_container.id">
+      Container ID: <b>{{current_container.container_id}}</b><br>
+      Products ID: <b>{{current_container.product_id}}</b><br>
+      Amount: <b>{{current_container.amount}}</b>
+    </div>
+    <span *ngIf="!current_container.id">No container scanned</span><br>
+    <button mat-raised-button color="accent" (click)="scanQR('process')" id="scan-btn2">Scan QR</button>
+    <button mat-raised-button color="primary" (click)="processContainer()" [disabled]="!current_container.id" id="process-cont-btn">Process Container</button>
+  </mat-card>
+</div>
+
